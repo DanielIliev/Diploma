@@ -7,16 +7,26 @@ function uiMenu() {
 
 function teachers() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-  var schedule = get_schedule(sheet);
-  SpreadsheetApp.getActiveSpreadsheet()
-    .insertSheet('График Учител', 5)
-    .getRange(1,1,schedule.length,schedule[0].length)
-    .setValues(schedule);
-  
+  if (sheet.length < 6) {
+    var new_sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('График Учител', 5)
+    var schedule = get_schedule(sheet);
+    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
+    var rows = sheet[5].getDataRange().getNumRows();
+    var cols = sheet[5].getDataRange().getNumColumns();
+    get_new(schedule,rows,cols);
+    sheet[5].clear();
+  } else if (sheet.length >= 6) {
+    var schedule = get_schedule(sheet,rows,cols);
+    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
+    var rows = sheet[5].getDataRange().getNumRows();
+    var cols = sheet[5].getDataRange().getNumColumns();
+    get_new(schedule,rows,cols);
+    sheet[5].clear();
+  }
 }
 
 function get_schedule(sheets) {
-  var num_of_sheets = sheets.length;
+  var num_of_sheets = sheets.length - 1;
   var result = [];
   var timestamp = /[0-9]+[:]{1}[0-9]+/;
   var initials = Browser.inputBox('Въведи инициали на учител');
@@ -31,15 +41,6 @@ function get_schedule(sheets) {
         if (data[row][col] == initials) {
           if (data[row][col-2].toString().search(timestamp) != -1) {
             cases = 0;
-            day(data,row,col,rows,cols);
-            if (data[row+1][col-1].localeCompare(data[row][col-1]) == 0) {
-              temp_arr.push(data[row+1][col-1]);
-              temp_arr.push(data[row+1][col-2]);
-            }
-            if (data[row+2][col-1].localeCompare(data[row][col-1]) == 0) {
-              temp_arr.push(data[row+2][col-1]);
-              temp_arr.push(data[row+2][col-2]);
-            }
           } else if (data[row][col-3].toString().search(timestamp) != -1) {
             cases = 1;
           } else if (data[row][col-4].toString().search(timestamp) != -1) {
@@ -116,6 +117,20 @@ function day(curr_sheet_data,curr_row,curr_col,sheet_rows,sheet_cols) {
     }
   }
   Logger.log(curr_day);
+}
+
+function get_new(data,rows,cols) {
+  var new_arr = [];
+  for (var row = 0; row < rows; row++) {
+    for (var col = 0; col < cols; col++) {
+      if (!data[row][col] == "") {
+        if (isNaN(data[row][col])) {
+          new_arr.push(data[row][col]);
+        }
+      }
+    }
+  }
+  Logger.log(new_arr);
 }
 
 /*
