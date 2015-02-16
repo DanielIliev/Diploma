@@ -146,6 +146,5 @@ function get_day(row,data) {
 
 /*
   Tasks left:
-    - Append days to schedule
     - Check for holes ...
 */
