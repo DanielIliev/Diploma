@@ -10,18 +10,16 @@ function teachers() {
   if (sheet.length < 6) {
     var new_sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('График Учител', 5)
     var schedule = get_schedule(sheet);
-    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
     var rows = sheet[5].getDataRange().getNumRows();
     var cols = sheet[5].getDataRange().getNumColumns();
-    get_new(schedule,rows,cols);
     sheet[5].clear();
+    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
   } else if (sheet.length >= 6) {
     var schedule = get_schedule(sheet,rows,cols);
-    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
     var rows = sheet[5].getDataRange().getNumRows();
     var cols = sheet[5].getDataRange().getNumColumns();
-    get_new(schedule,rows,cols);
     sheet[5].clear();
+    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
   }
 }
 
@@ -52,17 +50,33 @@ function get_schedule(sheets) {
           }
           switch(cases) {
             case 0:
+              var day = get_day(row,data);
+              temp_arr.push(day);
               temp_arr.push(data[row][col]);
               temp_arr.push(data[row][col-1]);
               temp_arr.push(data[row][col-2]);
+              if (data[row+1][col-1] == data[row][col-1]) {
+                temp_arr.push(data[row+1][col]);
+                temp_arr.push(data[row+1][col-1]);
+                temp_arr.push(data[row+1][col-2]);
+              }
+              if (data[row+2][col-1] == data[row][col-1]) {
+                temp_arr.push(data[row+2][col]);
+                temp_arr.push(data[row+2][col-1]);
+                temp_arr.push(data[row+2][col-2]);
+              }
               break;
             case 1:
+              var day = get_day(row,data);
+              temp_arr.push(day);
               temp_arr.push(data[row][col]);
               temp_arr.push(data[row][col-1]);
               temp_arr.push(data[row][col-2]);
               temp_arr.push(data[row][col-3]);
               break;
             case 2:
+              var day = get_day(row,data);
+              temp_arr.push(day);
               temp_arr.push(data[row][col]);
               temp_arr.push(data[row][col-1]);
               temp_arr.push(data[row][col-2]);
@@ -70,6 +84,8 @@ function get_schedule(sheets) {
               temp_arr.push(data[row][col-4]);
               break;
             case 3:
+              var day = get_day(row,data);
+              temp_arr.push(day);
               temp_arr.push(data[row][col]);
               temp_arr.push(data[row][col-1]);
               temp_arr.push(data[row][col-2]);
@@ -78,6 +94,8 @@ function get_schedule(sheets) {
               temp_arr.push(data[row][col-5]);
               break;
             case 4:
+              var day = get_day(row,data);
+              temp_arr.push(day);
               temp_arr.push(data[row][col]);
               temp_arr.push(data[row][col-1]);
               temp_arr.push(data[row][col-2]);
@@ -93,44 +111,37 @@ function get_schedule(sheets) {
   }
     result.push(temp_arr);
     return result;
-  }
-
-function day(curr_sheet_data,curr_row,curr_col,sheet_rows,sheet_cols) {
-  var curr_day = "";
-  for (var i = curr_row; i < sheet_rows; i++) {
-    switch(curr_sheet_data[i][0]) {
-      case "Понеделник":
-        curr_day = "Понеделник";
-        break
-      case "Вторник":
-        curr_day = "Вторник";
-        break;
-      case "Сряда":
-        curr_day = "Сряда";
-        break;
-      case "Четвъртък":
-        curr_day = "Четвъртък";
-        break;
-      case "Петък":
-        curr_day = "Петък";
-        break;
-    }
-  }
-  Logger.log(curr_day);
 }
 
-function get_new(data,rows,cols) {
-  var new_arr = [];
-  for (var row = 0; row < rows; row++) {
-    for (var col = 0; col < cols; col++) {
-      if (!data[row][col] == "") {
-        if (isNaN(data[row][col])) {
-          new_arr.push(data[row][col]);
-        }
-      }
+function get_day(row,data) {
+  while (row >= 0) {
+    var cur_cell = data[row][0];
+    switch(cur_cell) {
+      case "Понеделник":
+        var curr_day = data[row][0];
+        row = 0;
+        break;
+      case "Вторник":
+        var curr_day = data[row][0];
+        row = 0;
+        break;
+      case "Сряда":
+        var curr_day = data[row][0];
+        row = 0;
+        break;
+      case "Четвъртък":
+        var curr_day = data[row][0];
+        row = 0;
+        break;
+      case "Петък":
+        var curr_day = data[row][0];
+        row = 0;
+        break;
     }
+    row--;
   }
-  Logger.log(new_arr);
+  Logger.log(curr_day);
+  return curr_day;
 }
 
 /*
