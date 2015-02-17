@@ -27,9 +27,11 @@ function get_schedule(sheets) {
   var num_of_sheets = sheets.length - 1;
   var result = [];
   var timestamp = /[0-9]+[:]{1}[0-9]+/;
+  var cab = /[0-9]+/;
   var initials = Browser.inputBox('Въведи инициали на учител');
   var cases = 0;
   var temp_arr = [];
+  temp_arr.push(initials);
   for (var i = 0; i < num_of_sheets; i++) {
     var rows = sheets[i].getDataRange().getNumRows();
     var cols = sheets[i].getDataRange().getNumColumns();
@@ -37,72 +39,74 @@ function get_schedule(sheets) {
     for (var row = 0; row < rows; row++) {
       for (var col = 0; col < cols; col++) {
         if (data[row][col] == initials) {
+          var cases = 0;
           if (data[row][col-2].toString().search(timestamp) != -1) {
             cases = 0;
           } else if (data[row][col-3].toString().search(timestamp) != -1) {
             cases = 1;
-          } else if (data[row][col-4].toString().search(timestamp) != -1) {
+          } else if (data[row][col-7].toString().search(timestamp) != -1) {
             cases = 2;
-          } else if (data[row][col-5].toString().search(timestamp) != -1) {
-            cases = 3;
-          } else if (data[row][col-6].toString().search(timestamp) != -1) {
-            cases = 4;
           }
           switch(cases) {
             case 0:
               var day = get_day(row,data);
               temp_arr.push(day);
-              temp_arr.push(data[row][col]);
-              temp_arr.push(data[row][col-1]);
-              temp_arr.push(data[row][col-2]);
-              if (data[row+1][col-1] == data[row][col-1]) {
-                temp_arr.push(data[row+1][col]);
-                temp_arr.push(data[row+1][col-1]);
-                temp_arr.push(data[row+1][col-2]);
+              var classes = get_class(rows,cols,data);
+              temp_arr.push(classes);
+              if (data[row][col-2] != "") {
+                temp_arr.push(data[row][col-2]);
               }
-              if (data[row+2][col-1] == data[row][col-1]) {
-                temp_arr.push(data[row+2][col]);
-                temp_arr.push(data[row+2][col-1]);
-                temp_arr.push(data[row+2][col-2]);
+              if (data[row][col-1] == data[row+1][col-1]) {
+                if (data[row+1][col-2] != "") {
+                  temp_arr.push(data[row+1][col-2]);
+                }
+              }
+              if (data[row][col-1] == data[row+2][col-1]) {
+                if (data[row+2][col-2] != "") {
+                  temp_arr.push(data[row+2][col-2]);
+                }
+              }
+              if (data[row][col-1] == data[row+3][col-1]) {
+                if (data[row+3][col-2] != "") {
+                  temp_arr.push(data[row+3][col-2]);
+                }
               }
               break;
             case 1:
               var day = get_day(row,data);
               temp_arr.push(day);
-              temp_arr.push(data[row][col]);
-              temp_arr.push(data[row][col-1]);
-              temp_arr.push(data[row][col-2]);
+              var classes = get_class(rows,cols,data);
+              temp_arr.push(classes);
               temp_arr.push(data[row][col-3]);
+              if (data[row][col-2] == data[row+1][col-2]) {
+                if (data[row+1][col-3] != "") {
+                  temp_arr.push(data[row+1][col-3]);
+                }
+              }
+              if (data[row][col-2] == data[row+2][col-2]) {
+                if (data[row+2][col-3] != "") {
+                  temp_arr.push(data[row+2][col-3]);
+                }
+              }
               break;
             case 2:
               var day = get_day(row,data);
               temp_arr.push(day);
-              temp_arr.push(data[row][col]);
-              temp_arr.push(data[row][col-1]);
-              temp_arr.push(data[row][col-2]);
-              temp_arr.push(data[row][col-3]);
-              temp_arr.push(data[row][col-4]);
-              break;
-            case 3:
-              var day = get_day(row,data);
-              temp_arr.push(day);
-              temp_arr.push(data[row][col]);
-              temp_arr.push(data[row][col-1]);
-              temp_arr.push(data[row][col-2]);
-              temp_arr.push(data[row][col-3]);
-              temp_arr.push(data[row][col-4]);
-              temp_arr.push(data[row][col-5]);
-              break;
-            case 4:
-              var day = get_day(row,data);
-              temp_arr.push(day);
-              temp_arr.push(data[row][col]);
-              temp_arr.push(data[row][col-1]);
-              temp_arr.push(data[row][col-2]);
-              temp_arr.push(data[row][col-3]);
-              temp_arr.push(data[row][col-4]);
-              temp_arr.push(data[row][col-5]);
-              temp_arr.push(data[row][col-6]);
+              var classes = get_class(rows,cols,data);
+              temp_arr.push(classes);
+              if (data[row][col-7] != "") {
+                temp_arr.push(data[row][col-7]);
+              }
+              if (data[row][col-2] == data[row+1][col-2]) {
+                if (data[row+1][col-7] != "") {
+                  temp_arr.push(data[row+1][col-7]);
+                }
+              }
+              if (data[row][col-2] == data[row+2][col-2]) {
+                if (data[row+2][col-7] != "") {
+                  temp_arr.push(data[row+2][col-7]);
+                }
+              }
               break;
           }
         }
@@ -144,7 +148,27 @@ function get_day(row,data) {
   return curr_day;
 }
 
-/*
-  Tasks left:
-    - Check for holes ...
-*/
+function get_class(rows,cols,data) {
+  for (var row = 0; row < rows; row++) {
+    for (var col = 0; col < cols; col++) {
+      switch(data[row][col]) {
+        case "XII клас":
+          var curr_class = data[row][col];
+          break;
+        case "XI клас":
+          var curr_class = data[row][col];
+          break;
+        case "X клас":
+          var curr_class = data[row][col];
+          break;
+        case "IX клас":
+          var curr_class = data[row][col];
+          break;
+        case "VIII клас":
+          var curr_class = data[row][col];
+          break;
+      }
+    }
+  }
+  return curr_class;
+}
