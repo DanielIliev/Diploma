@@ -27,11 +27,9 @@ function get_schedule(sheets) {
   var num_of_sheets = sheets.length - 1;
   var result = [];
   var timestamp = /[0-9]+[:]{1}[0-9]+/;
-  var cab = /[0-9]+/;
   var initials = Browser.inputBox('Въведи инициали на учител');
   var cases = 0;
-  var temp_arr = [];
-  temp_arr.push(initials);
+  result.push([initials]);
   for (var i = 0; i < num_of_sheets; i++) {
     var rows = sheets[i].getDataRange().getNumRows();
     var cols = sheets[i].getDataRange().getNumColumns();
@@ -50,61 +48,61 @@ function get_schedule(sheets) {
           switch(cases) {
             case 0:
               var day = get_day(row,data);
-              temp_arr.push(day);
+              result.push([day]);
               var classes = get_class(rows,cols,data);
-              temp_arr.push(classes);
+              result.push([classes]);
               if (data[row][col-2] != "") {
-                temp_arr.push(data[row][col-2]);
+                result.push([data[row][col-2]]);
               }
               if (data[row][col-1] == data[row+1][col-1]) {
                 if (data[row+1][col-2] != "") {
-                  temp_arr.push(data[row+1][col-2]);
+                  result.push([data[row+1][col-2]]);
                 }
               }
               if (data[row][col-1] == data[row+2][col-1]) {
                 if (data[row+2][col-2] != "") {
-                  temp_arr.push(data[row+2][col-2]);
+                  result.push([data[row+2][col-2]]);
                 }
               }
               if (data[row][col-1] == data[row+3][col-1]) {
                 if (data[row+3][col-2] != "") {
-                  temp_arr.push(data[row+3][col-2]);
+                  result.push([data[row+3][col-2]]);
                 }
               }
               break;
             case 1:
               var day = get_day(row,data);
-              temp_arr.push(day);
+              result.push([day]);
               var classes = get_class(rows,cols,data);
-              temp_arr.push(classes);
-              temp_arr.push(data[row][col-3]);
+              result.push([classes]);
+              result.push([data[row][col-3]]);
               if (data[row][col-2] == data[row+1][col-2]) {
                 if (data[row+1][col-3] != "") {
-                  temp_arr.push(data[row+1][col-3]);
+                  result.push([data[row+1][col-3]]);
                 }
               }
               if (data[row][col-2] == data[row+2][col-2]) {
                 if (data[row+2][col-3] != "") {
-                  temp_arr.push(data[row+2][col-3]);
+                  result.push([data[row+2][col-3]]);
                 }
               }
               break;
             case 2:
               var day = get_day(row,data);
-              temp_arr.push(day);
+              result.push([day]);
               var classes = get_class(rows,cols,data);
-              temp_arr.push(classes);
+              result.push([classes]);
               if (data[row][col-7] != "") {
-                temp_arr.push(data[row][col-7]);
+                result.push([data[row][col-7]]);
               }
               if (data[row][col-2] == data[row+1][col-2]) {
                 if (data[row+1][col-7] != "") {
-                  temp_arr.push(data[row+1][col-7]);
+                  result.push([data[row+1][col-7]]);
                 }
               }
               if (data[row][col-2] == data[row+2][col-2]) {
                 if (data[row+2][col-7] != "") {
-                  temp_arr.push(data[row+2][col-7]);
+                  result.push([data[row+2][col-7]]);
                 }
               }
               break;
@@ -113,7 +111,6 @@ function get_schedule(sheets) {
       }
     }
   }
-    result.push(temp_arr);
     return result;
 }
 
