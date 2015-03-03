@@ -273,23 +273,3 @@ function get_day(curr_row, data) {
     curr_row--;
   }
 }
-/*
-function duplicates() {
-  var sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-  var timestamp = /[0-9]+[:]{1}[0-9]+/;
-  for (var i = 0; i < 5; i++) {
-    var range = sheets[i].getActiveRange();
-    var rows = sheets[i].getDataRange().getNumRows();
-    var cols = sheets[i].getDataRange().getNumColumns();
-    var data = sheets[i].getDataRange().getValues();
-    for (var row = 0; row < rows; row++) {
-      for (var col = 0; col < cols; col++) {
-        check_row (rows,cols,data[row],data[row][col]);
-      }
-    }
-  }
-}
-
-function check_row(curr_row_pos,cols,curr_row_data,curr_cell) {
-  for (var 
-}*/
