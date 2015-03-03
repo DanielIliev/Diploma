@@ -20,20 +20,20 @@ for (var i = 0; i < num_sheets; i++) {
     for (var row = 0; row < rows; row++) {
       for (var col = 0; col < cols; col++) {
         switch(data[row][col]) {
-          /*case "VIII клас":
+          case "VIII клас":
             class_VII(rows,cols,data,range);
             break;
           case "IX клас":
             class_IX(rows,cols,data,range);
             break;
           case "X клас":
-            class_X_XI(rows,cols,data,range);
+            class_X_XI_XII(rows,cols,data,range);
             break;
           case "XI клас":
-            class_X_XI(rows,cols,data,range);
-            break;*/
+            class_X_XI_XII(rows,cols,data,range);
+            break;
           case "XII клас":
-            class_X_XI(rows,cols,data,range);
+            class_X_XI_XII(rows,cols,data,range);
             break;
         }
       }
@@ -41,7 +41,7 @@ for (var i = 0; i < num_sheets; i++) {
   }
 }
 
-function class_X_XI(rows,cols,data,range) {
+function class_X_XI_XII(rows,cols,data,range) {
   var timestamp = /[0-9]+[:]{1}[0-9]+/;
   for (var row = 0; row < rows; row++) {
     for (var col = 0; col < cols; col++) {
