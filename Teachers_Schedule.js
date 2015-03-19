@@ -1,171 +1,104 @@
-function uiMenu() {
-  SpreadsheetApp.getUi()
-  .createAddonMenu()
-  .addItem('График учители', 'teachers')
-  .addToUi()
-}
-
-function teachers() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-  if (sheet.length < 6) {
-    var new_sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('График Учител', 5)
-    var schedule = get_schedule(sheet);
-    var rows = sheet[5].getDataRange().getNumRows();
-    var cols = sheet[5].getDataRange().getNumColumns();
-    sheet[5].clear();
-    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
-  } else if (sheet.length >= 6) {
-    var schedule = get_schedule(sheet,rows,cols);
-    var rows = sheet[5].getDataRange().getNumRows();
-    var cols = sheet[5].getDataRange().getNumColumns();
-    sheet[5].clear();
-    sheet[5].getRange(1,1,schedule.length,schedule[0].length).setValues(schedule);
-  }
-}
-
-function get_schedule(sheets) {
-  var num_of_sheets = sheets.length - 1;
-  var result = [];
-  var timestamp = /[0-9]+[:]{1}[0-9]+/;
-  var initials = Browser.inputBox('Въведи инициали на учител');
-  var cases = 0;
-  result.push([initials]);
-  for (var i = 0; i < num_of_sheets; i++) {
-    var rows = sheets[i].getDataRange().getNumRows();
-    var cols = sheets[i].getDataRange().getNumColumns();
-    var data = sheets[i].getDataRange().getValues();
-    for (var row = 0; row < rows; row++) {
-      for (var col = 0; col < cols; col++) {
-        if (data[row][col] == initials) {
-          var cases = 0;
-          if (data[row][col-2].toString().search(timestamp) != -1) {
-            cases = 0;
-          } else if (data[row][col-3].toString().search(timestamp) != -1) {
-            cases = 1;
-          } else if (data[row][col-7].toString().search(timestamp) != -1) {
-            cases = 2;
-          }
-          switch(cases) {
-            case 0:
-              var day = get_day(row,data);
-              result.push([day]);
-              var classes = get_class(rows,cols,data);
-              result.push([classes]);
-              if (data[row][col-2] != "") {
-                result.push([data[row][col-2]]);
-              }
-              if (data[row][col-1] == data[row+1][col-1]) {
-                if (data[row+1][col-2] != "") {
-                  result.push([data[row+1][col-2]]);
-                }
-              }
-              if (data[row][col-1] == data[row+2][col-1]) {
-                if (data[row+2][col-2] != "") {
-                  result.push([data[row+2][col-2]]);
-                }
-              }
-              if (data[row][col-1] == data[row+3][col-1]) {
-                if (data[row+3][col-2] != "") {
-                  result.push([data[row+3][col-2]]);
-                }
-              }
-              break;
-            case 1:
-              var day = get_day(row,data);
-              result.push([day]);
-              var classes = get_class(rows,cols,data);
-              result.push([classes]);
-              result.push([data[row][col-3]]);
-              if (data[row][col-2] == data[row+1][col-2]) {
-                if (data[row+1][col-3] != "") {
-                  result.push([data[row+1][col-3]]);
-                }
-              }
-              if (data[row][col-2] == data[row+2][col-2]) {
-                if (data[row+2][col-3] != "") {
-                  result.push([data[row+2][col-3]]);
-                }
-              }
-              break;
-            case 2:
-              var day = get_day(row,data);
-              result.push([day]);
-              var classes = get_class(rows,cols,data);
-              result.push([classes]);
-              if (data[row][col-7] != "") {
-                result.push([data[row][col-7]]);
-              }
-              if (data[row][col-2] == data[row+1][col-2]) {
-                if (data[row+1][col-7] != "") {
-                  result.push([data[row+1][col-7]]);
-                }
-              }
-              if (data[row][col-2] == data[row+2][col-2]) {
-                if (data[row+2][col-7] != "") {
-                  result.push([data[row+2][col-7]]);
-                }
-              }
-              break;
-          }
+function test() {
+  var sheet = SpreadsheetApp.getActiveSheet()
+  var cols = sheet.getDataRange().getNumColumns()
+  var rows = sheet.getDataRange().getNumRows()
+  var data = sheet.getDataRange().getValues()
+  var range = sheet.getRange(1,1,data.length,data[0].length)
+  var inits = Browser.inputBox("Въведи инициали")
+  var check = 0
+  var row_check = false
+  
+  for (var row = 0; row < rows; row++) {
+    for (var col = 0; col < cols; col++) {
+      if (check == 0) {
+        switch(data[row][col]) {
+          case 1:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+            } else {
+              Logger.log("Not Found")
+              check++
+            }
+            break;
+          case 2:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+            } else {
+              Logger.log("Not Found")
+              check++
+            }
+            break;
+          case 3:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+            } else {
+              Logger.log("Not Found")
+              check++
+            }
+            break;
+          case 4:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+            } else {
+              Logger.log("Not Found")
+              check++
+            }
+            break;
+          case 5:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+            } else {
+              Logger.log("Not Found")
+              check++
+            }
+            break;
+          case 6:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+            } else {
+              Logger.log("Not Found")
+              check++
+            }
+            break;
+          case 7:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+            } else {
+              Logger.log("Not Found")
+              check++
+            }
+            break;
+          case 8:
+            if (search_inits(cols,data[row],inits)) {
+              Logger.log("Found")
+              check++
+              row_check = false
+            } else {
+              row_check = false
+              Logger.log("Not Found")
+              check++
+            }
+            break;
         }
       }
     }
+    check = 0
   }
-    return result;
 }
 
-function get_day(row,data) {
-  while (row >= 0) {
-    var cur_cell = data[row][0];
-    switch(cur_cell) {
-      case "Понеделник":
-        var curr_day = data[row][0];
-        row = 0;
-        break;
-      case "Вторник":
-        var curr_day = data[row][0];
-        row = 0;
-        break;
-      case "Сряда":
-        var curr_day = data[row][0];
-        row = 0;
-        break;
-      case "Четвъртък":
-        var curr_day = data[row][0];
-        row = 0;
-        break;
-      case "Петък":
-        var curr_day = data[row][0];
-        row = 0;
-        break;
-    }
-    row--;
-  }
-  Logger.log(curr_day);
-  return curr_day;
-}
-
-function get_class(rows,cols,data) {
-  for (var row = 0; row < rows; row++) {
-    for (var col = 0; col < cols; col++) {
-      switch(data[row][col]) {
-        case "XII клас":
-          var curr_class = data[row][col];
-          break;
-        case "XI клас":
-          var curr_class = data[row][col];
-          break;
-        case "X клас":
-          var curr_class = data[row][col];
-          break;
-        case "IX клас":
-          var curr_class = data[row][col];
-          break;
-        case "VIII клас":
-          var curr_class = data[row][col];
-          break;
-      }
+function search_inits(cols,data_row,inits) {
+  var found = false
+  for (var col = 0; col < cols; col++) {
+    if (data_row[col] == inits) {
+      found = true
     }
   }
-  return curr_class;
+  return found
 }
