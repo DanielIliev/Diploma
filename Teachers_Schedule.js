@@ -5,100 +5,98 @@ function test() {
   var data = sheet.getDataRange().getValues()
   var range = sheet.getRange(1,1,data.length,data[0].length)
   var inits = Browser.inputBox("Въведи инициали")
-  var check = 0
-  var row_check = false
-  
+  var checked_row = false
   for (var row = 0; row < rows; row++) {
     for (var col = 0; col < cols; col++) {
-      if (check == 0) {
+      if (checked_row === false) {
         switch(data[row][col]) {
           case 1:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-            } else {
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
           case 2:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-            } else {
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
           case 3:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-            } else {
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
           case 4:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-            } else {
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
           case 5:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-            } else {
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
           case 6:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-            } else {
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
           case 7:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-            } else {
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
           case 8:
-            if (search_inits(cols,data[row],inits)) {
-              Logger.log("Found")
-              check++
-              row_check = false
-            } else {
-              row_check = false
-              Logger.log("Not Found")
-              check++
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                checked_row = true
+                Logger.log("Found")
+                break;
             }
             break;
         }
       }
     }
-    check = 0
+    checked_row = false
   }
 }
 
 function search_inits(cols,data_row,inits) {
   var found = false
   for (var col = 0; col < cols; col++) {
-    if (data_row[col] == inits) {
+    if (data_row[col].toString() == inits) {
       found = true
     }
   }
   return found
 }
+
+
+/*
+switch(search_inits(cols,data[row],inits)) {
+          case true:
+            checked_row = true
+            Logger.log("Found")
+            break;
+        }
+*/
