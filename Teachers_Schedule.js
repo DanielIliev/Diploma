@@ -21,94 +21,77 @@ function test() {
                 checked_row = true
                 inits_check = true
                 Logger.log('Found')
-                break;
+              break;
             }
-            break;
+          break;
           case 2:
             switch(search_inits(cols,data[row],inits)) {
               case true:
                 checked_row = true
                 inits_check = true
                 Logger.log('Found')
-                break;
+              break;
             }
-            break;
+          break;
           case 3:
-            switch(inits_check) {
+            switch(search_inits(cols,data[row],inits)) {
               case true:
-                switch(search_inits(cols,data[row-1],inits)) {
+                switch(inits_check) {
+                  case true:
+                    switch(search_inits(cols,data[row-1],inits)) {
+                      case false:
+                        for (var p = 1; p < data[0].length; p++) {
+                          var cell = range.getCell(row,p)
+                          cell.setBackground('red')
+                        }
+                      break;
+                    }
+                  break;
                   case false:
-                    for (var p = 1; p < data[0].length; p++) {
-                      var cell = range.getCell(row,p)
-                      cell.setBackground('red')
+                    switch(search_inits(cols,data[row],inits)) {
+                      case true:
+                        inits_check = true
+                      break;
                     }
                   break;
                 }
                 break;
-              case false:
-                switch(search_inits(cols,data[row],inits)) {
-                  case true:
-                    inits_check = true
-                    break;
-                }
-                break;
             }
-            break;
+          break;
           case 4:
-            switch(inits_check) {
-            case true:
-              switch(search_inits(cols,data[row-1],inits)) {
-                case false:
-                  for (var p = 1; p < data[0].length; p++) {
-                    var cell = range.getCell(row,p)
-                    cell.setBackground('red')
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                switch(inits_check) {
+                case true:
+                  switch(search_inits(cols,data[row-1],inits)) {
+                    case false:
+                      for (var p = 1; p < data[0].length; p++) {
+                        var cell = range.getCell(row,p)
+                        cell.setBackground('red')
+                      }
+                    break;
                   }
-                  break;
-              }
-              switch(search_inits(cols,data[row-2],inits)) {
-                case false:
-                  for (var p = 1; p < data[0].length; p++) {
-                    var cell = range.getCell(row-1,p)
-                    cell.setBackground('red')
+                  switch(search_inits(cols,data[row-2],inits)) {
+                    case false:
+                      for (var p = 1; p < data[0].length; p++) {
+                        var cell = range.getCell(row-1,p)
+                        cell.setBackground('red')
+                      }
+                    break;
                   }
-                  break;
+                break;
               }
               break;
             }
-            break;
+          break;
           case 5:
-            switch(search_inits(cols,data[row],inits)) {
-              case true:
-                checked_row = true
-                Logger.log("Found")
-                break;
-            }
-            break;
+          break;
           case 6:
-            switch(search_inits(cols,data[row],inits)) {
-              case true:
-                checked_row = true
-                Logger.log("Found")
-                break;
-            }
-            break;
+          break;
           case 7:
-            switch(search_inits(cols,data[row],inits)) {
-              case true:
-                checked_row = true
-                Logger.log("Found")
-                break;
-            }
-            break;
+          break;
           case 8:
-            switch(search_inits(cols,data[row],inits)) {
-              case true:
-                checked_row = true
-                Logger.log("Found")
-                break;
-            }
-            inits_check = false
-            break;
+          break;
         }
       }
     }
