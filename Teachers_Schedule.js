@@ -1,3 +1,7 @@
+function start() {
+  SpreadsheetApp.getUi().createAddonMenu().addItem('Search', 'test').addToUi()
+}
+
 function test() {
   var sheet = SpreadsheetApp.getActiveSheet()
   var cols = sheet.getDataRange().getNumColumns()
@@ -6,6 +10,7 @@ function test() {
   var range = sheet.getRange(1,1,data.length,data[0].length)
   var inits = Browser.inputBox("Въведи инициали")
   var checked_row = false
+  var inits_check = false
   for (var row = 0; row < rows; row++) {
     for (var col = 0; col < cols; col++) {
       if (checked_row === false) {
@@ -14,7 +19,8 @@ function test() {
             switch(search_inits(cols,data[row],inits)) {
               case true:
                 checked_row = true
-                Logger.log("Found")
+                inits_check = true
+                Logger.log('Found')
                 break;
             }
             break;
@@ -22,24 +28,52 @@ function test() {
             switch(search_inits(cols,data[row],inits)) {
               case true:
                 checked_row = true
-                Logger.log("Found")
+                inits_check = true
+                Logger.log('Found')
                 break;
             }
             break;
           case 3:
-            switch(search_inits(cols,data[row],inits)) {
+            switch(inits_check) {
               case true:
-                checked_row = true
-                Logger.log("Found")
+                switch(search_inits(cols,data[row-1],inits)) {
+                  case false:
+                    for (var p = 1; p < data[0].length; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  break;
+                }
+                break;
+              case false:
+                switch(search_inits(cols,data[row],inits)) {
+                  case true:
+                    inits_check = true
+                    break;
+                }
                 break;
             }
             break;
           case 4:
-            switch(search_inits(cols,data[row],inits)) {
-              case true:
-                checked_row = true
-                Logger.log("Found")
-                break;
+            switch(inits_check) {
+            case true:
+              switch(search_inits(cols,data[row-1],inits)) {
+                case false:
+                  for (var p = 1; p < data[0].length; p++) {
+                    var cell = range.getCell(row,p)
+                    cell.setBackground('red')
+                  }
+                  break;
+              }
+              switch(search_inits(cols,data[row-2],inits)) {
+                case false:
+                  for (var p = 1; p < data[0].length; p++) {
+                    var cell = range.getCell(row-1,p)
+                    cell.setBackground('red')
+                  }
+                  break;
+              }
+              break;
             }
             break;
           case 5:
@@ -73,6 +107,7 @@ function test() {
                 Logger.log("Found")
                 break;
             }
+            inits_check = false
             break;
         }
       }
