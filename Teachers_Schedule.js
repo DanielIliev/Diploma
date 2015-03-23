@@ -85,6 +85,38 @@ function test() {
             }
           break;
           case 5:
+            switch(search_inits(cols,data[row],inits)) {
+              case true:
+                switch(inits_check) {
+                case true:
+                  switch(search_inits(cols,data[row-1],inits)) {
+                    case false:
+                      for (var p = 1; p < data[0].length; p++) {
+                        var cell = range.getCell(row,p)
+                        cell.setBackground('red')
+                      }
+                    break;
+                  }
+                  switch(search_inits(cols,data[row-2],inits)) {
+                    case false:
+                      for (var p = 1; p < data[0].length; p++) {
+                        var cell = range.getCell(row-1,p)
+                        cell.setBackground('red')
+                      }
+                    break;
+                  }
+                  switch(search_inits(cols,data[row-3],inits)) {
+                    case false:
+                      for (var p = 1; p < data[0].length; p++) {
+                        var cell = range.getCell(row-2,p)
+                        cell.setBackground('red')
+                      }
+                    break;
+                  }
+                break;
+              }
+              break;
+            }
           break;
           case 6:
           break;
