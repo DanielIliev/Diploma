@@ -12,12 +12,13 @@ function uiMenu() {
 
 function teachersSchedule() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()
-  var rows = sheet[0].getDataRange().getNumRows()
-  var cols = sheet[0].getDataRange().getNumColumns()
-  var data = sheet[0].getDataRange().getValues()
-  var range = sheet[0].getRange(1,1,data.length,data[0].length) 
+  var rows = sheet[2].getDataRange().getNumRows()
+  var cols = sheet[2].getDataRange().getNumColumns()
+  var data = sheet[2].getDataRange().getValues()
+  var range = sheet[2].getRange(1,1,data.length,data[0].length) 
   var inits = Browser.inputBox('Въведи инициали')
   var status = false
+  var row_position = 0
   
   for (var row = 0; row < rows; row++) {
     if (data[row][1] != '') {
@@ -25,82 +26,453 @@ function teachersSchedule() {
         case 1:
           if (search_inits(cols, data[row], inits)) {
             status = true
-          } else if (search_inits(cols, data[row], inits)) {
-            status = true
+            row_position = 1
           }
         break;
         case 2:
-          if(search_inits(cols, data[row], inits)) {
+          if (search_inits(cols,data[row],inits)) {
             status = true
-          } else if (search_inits(cols, data[row], inits)) {
-            status = true
+            row_position = 2
           }
         break;
         case 3:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
-              if (!search_inits(cols,data[row-1],inits)) {
-                for (var p = 1; p < cols; p++) {
-                  var cell = range.getCell(row,p+1)
-                  cell.setBackground('red')
-                }
+              switch(row_position) {
+                case 1:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
               }
             } else {
               status = true
+              row_position = 3
             }
           }
         break;
         case 4:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
-              if (!search_inits(cols,data[row-1],inits)) {
-                for (var p = 1; p < cols; p++) {
-                  var cell = range.getCell(row,p+1)
-                  cell.setBackground('red')
-                }
-              }
-              if (!search_inits(cols,data[row-2],inits)) {
-                for (var p = 1; p < cols; p++) {
-                  var cell = range.getCell(row-1,p+1)
-                  cell.setBackground('red')
-                }
+              switch(row_position) {
+                case 1:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 2:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
               }
             } else {
               status = true
+              row_position = 4
             }
           }
         break;
         case 5:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
-              
+              switch(row_position) {
+                case 1:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 2:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 3:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+              }
             } else {
               status = true
+              row_position = 5
             }
           }
         break;
         case 6:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
-              
+              switch(row_position) {
+                case 1:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-4],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-3,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 2:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 3:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 4:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+              }
             } else {
               status = true
+              row_position = 6
             }
           }
         break;
         case 7:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
-              
+              switch(row_position) {
+                case 1:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-4],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-3,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-5],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-4,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 2:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-4],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-3,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 3:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 4:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 5:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+              }
             } else {
               status = true
+              row_position = 7
             }
           }
         break;
         case 8:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
-              
+              switch(row_position) {
+                case 1:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-4],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-3,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-5],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-4,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-6],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-5,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 2:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-4],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-3,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-5],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-4,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 3:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-4],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-3,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 4:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-3],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-2,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 5:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                  if (!search_inits(cols,data[row-2],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row-1,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+                case 6:
+                  if (!search_inits(cols,data[row-1],inits)) {
+                    for (var p = 1; p < cols; p++) {
+                      var cell = range.getCell(row,p)
+                      cell.setBackground('red')
+                    }
+                  }
+                break;
+              }
             }
           }
           status = false
