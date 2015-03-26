@@ -12,14 +12,39 @@ function uiMenu() {
 
 function teachersSchedule() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()
-  var rows = sheet[2].getDataRange().getNumRows()
-  var cols = sheet[2].getDataRange().getNumColumns()
-  var data = sheet[2].getDataRange().getValues()
-  var range = sheet[2].getRange(1,1,data.length,data[0].length) 
   var inits = Browser.inputBox('Въведи инициали')
+  if (inits != '') {
+    for (var i = 0; i < sheet.length; i++) {
+      var rows = sheet[i].getDataRange().getNumRows()
+      var cols = sheet[i].getDataRange().getNumColumns()
+      var data = sheet[i].getDataRange().getValues()
+      var range = sheet[i].getRange(1,1,data.length,data[0].length)
+      var found = false
+      var class = ''
+      for (var row = 0; row < rows; row++) {
+        for (var col = 0; col < cols; col++) {
+          if (data[row][col] == inits) {
+            found = true
+          }
+        }
+      }
+      if (found) {
+        var newsheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('Разписание на ' + inits + ' за ' + data[0][2], sheet.length + 1)
+        newsheet.getRange(1,1,data.length,data[0].length).setValues(data)
+        markholes(newsheet, inits)
+      }
+      found = false
+    }
+  }
+}
+
+function markholes(newsheet, inits) {
+  var rows = newsheet.getDataRange().getNumRows()
+  var cols = newsheet.getDataRange().getNumColumns()
+  var data = newsheet.getDataRange().getValues()
+  var range = newsheet.getRange(1,1,data.length,data[0].length)
   var status = false
   var row_position = 0
-  
   for (var row = 0; row < rows; row++) {
     if (data[row][1] != '') {
       switch(data[row][1]) {
@@ -28,13 +53,13 @@ function teachersSchedule() {
             status = true
             row_position = 1
           }
-        break;
+          break;
         case 2:
           if (search_inits(cols,data[row],inits)) {
             status = true
             row_position = 2
           }
-        break;
+          break;
         case 3:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
@@ -46,14 +71,14 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
               }
             } else {
               status = true
               row_position = 3
             }
           }
-        break;
+          break;
         case 4:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
@@ -71,7 +96,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 2:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -79,14 +104,14 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
               }
             } else {
               status = true
               row_position = 4
             }
           }
-        break;
+          break;
         case 5:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
@@ -110,7 +135,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 2:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -124,7 +149,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 3:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -132,14 +157,14 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
               }
             } else {
               status = true
               row_position = 5
             }
           }
-        break;
+          break;
         case 6:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
@@ -169,7 +194,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 2:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -189,7 +214,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 3:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -203,7 +228,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 4:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -211,14 +236,14 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
               }
             } else {
               status = true
               row_position = 6
             }
           }
-        break;
+          break;
         case 7:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
@@ -254,7 +279,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 2:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -280,7 +305,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 3:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -300,7 +325,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 4:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -314,7 +339,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 5:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -322,14 +347,14 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
               }
             } else {
               status = true
               row_position = 7
             }
           }
-        break;
+          break;
         case 8:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
@@ -371,7 +396,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 2:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -403,7 +428,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 3:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -429,7 +454,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 4:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -449,7 +474,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 5:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -463,7 +488,7 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
                 case 6:
                   if (!search_inits(cols,data[row-1],inits)) {
                     for (var p = 1; p < cols; p++) {
@@ -471,15 +496,15 @@ function teachersSchedule() {
                       cell.setBackground('red')
                     }
                   }
-                break;
+                  break;
               }
             }
           }
           status = false
-        break;
+          break;
       }
     }
-  }
+  } // The for loop for row ends here
 }
 
 function cabinets() {
