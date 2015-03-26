@@ -53,7 +53,18 @@ function teachersSchedule() {
         case 4:
           if (search_inits(cols, data[row], inits)) {
             if (status) {
-              
+              if (!search_inits(cols,data[row-1],inits)) {
+                for (var p = 1; p < cols; p++) {
+                  var cell = range.getCell(row,p+1)
+                  cell.setBackground('red')
+                }
+              }
+              if (!search_inits(cols,data[row-2],inits)) {
+                for (var p = 1; p < cols; p++) {
+                  var cell = range.getCell(row-1,p+1)
+                  cell.setBackground('red')
+                }
+              }
             } else {
               status = true
             }
