@@ -5,10 +5,9 @@ function uiMenu() {
   .addSeparator()
   .addItem('Маркирай дублиращи', 'markDuplicates')
   .addSeparator()
-  .addItem('График на учебни кабинети', 'cabinets')
+  .addItem('График на учебни кабинети', 'makesheet')
   .addToUi()
 }
-
 
 function teachersSchedule() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()
@@ -507,10 +506,6 @@ function markholes(newsheet, inits) {
   } // The for loop for row ends here
 }
 
-function cabinets() {
-  Browser.msgBox('Тази функционалност е в процес на разработка')
-}
-
 function markDuplicates() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()
   for (var i = 0; i < sheet.length; i++) {
@@ -633,4 +628,105 @@ function search_inits(cols,data_row,inits) {
     }
   }
   return found
+}
+
+function makesheet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()  
+  for (var i = 0; i < sheet.length; i++) {
+    var rows = sheet[i].getDataRange().getNumRows()
+    var cols = sheet[i].getDataRange().getNumColumns()
+    var data = sheet[i].getDataRange().getValues()
+    var cabs = ['11','12','13','14','15','16','21','22','23','24','25','26','27','31','32','33','34','35','36','37','41','42','43','44','45','46','47']
+    for (var row = 0; row < rows; row++) {
+      for (var col = 0; col < cols; col++) {
+        for (var cab = 0; cab < cabs.length; cab++) {
+          if (data[row][col] != '') {
+            if (data[row][col] == cabs[cab]) {
+              var newsheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('Разписание за кабинет ' + cabs[cab] + ' ' + data[0][2], sheet.length + 1)
+              newsheet.getRange(1,1,data.length,data[0].length).setValues(data)
+              cabinets(newsheet, cabs[cab])
+              cabs[cab] = ''
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function cabinets(newsheet, cab) {
+  var rows = newsheet.getDataRange().getNumRows()
+  var cols = newsheet.getDataRange().getNumColumns()
+  var data = newsheet.getDataRange().getValues()
+  var range = newsheet.getRange(1,1,data.length,data[0].length)
+  for (var row = 0; row < rows; row++) {
+    for (var col = 0; col < cols; col++) {
+      if (data[row][col] == cab) {
+        if (data[row][col] == data[row][col+5]) {
+          if (data[2][col-4] != data[2][col+1]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+6)
+            cell.setBackground('red')
+          }
+        }
+        if (data[row][col] == data[row][col+10]) {
+          if (data[2][col-4] != data[2][col+6]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+11)
+            cell.setBackground('red')
+          }
+        }
+        if (data[row][col] == data[row][col+15]) {
+          if (data[2][col-4] != data[2][col+11]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+16)
+            cell.setBackground('red')
+          }
+        }
+        if (data[row][col] == data[row][col+20]) {
+          if (data[2][col-4] != data[2][col+16]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+21)
+            cell.setBackground('red')
+          }
+        }
+        if (data[row][col] == data[row][col+25]) {
+          if (data[2][col-4] != data[2][col+21]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+26)
+            cell.setBackground('red')
+          }
+        }
+        if (data[row][col] == data[row][col+30]) {
+          if (data[2][col-4] != data[2][col+26]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+31)
+            cell.setBackground('red')
+          }
+        }
+        if (data[row][col] == data[row][col+35]) {
+          if (data[2][col-4] != data[2][col+31]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+36)
+            cell.setBackground('red')
+          }
+        }
+        if (data[row][col] == data[row][col+40]) {
+          if (data[2][col-4] != data[2][col+36]) {
+            var cell = range.getCell(row+1,col+1)
+            cell.setBackground('red')
+            cell = range.getCell(row+1,col+41)
+            cell.setBackground('red')
+          }
+        }
+      }
+    }
+  }
 }
